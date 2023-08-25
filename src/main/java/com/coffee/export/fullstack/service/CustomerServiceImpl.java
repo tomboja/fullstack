@@ -2,7 +2,7 @@ package com.coffee.export.fullstack.service;
 
 import com.coffee.export.fullstack.domain.Customer;
 import com.coffee.export.fullstack.exception.ResourceNotFound;
-import com.coffee.export.fullstack.repository.CustomerDAO;
+import com.coffee.export.fullstack.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,22 +15,21 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    private final CustomerDAO customerDAO;
+    private final CustomerRepository customerDao;
 
-    public CustomerServiceImpl(CustomerDAO customerDAO) {
-        this.customerDAO = customerDAO;
+    public CustomerServiceImpl(CustomerRepository customerDAO) {
+        this.customerDao = customerDAO;
     }
 
     @Override
     public List<Customer> getCustomers() {
-        return customerDAO.findAll();
+        return customerDao.findAll();
     }
 
     @Override
     public Customer getCustomerById(Integer id) {
-        return customerDAO
+        return customerDao
                 .findById(id)
-                // .orElseThrow(() -> new IllegalArgumentException("Customer with [%s] not found".formatted(id)));
-                .orElseThrow(() -> new ResourceNotFound("Customer with [%s] not found".formatted(id)));
+                .orElseThrow(() -> new ResourceNotFound("Customer with [%s] is not found".formatted(id)));
     }
 }

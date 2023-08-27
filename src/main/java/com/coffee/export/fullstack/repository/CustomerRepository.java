@@ -10,13 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-//public class CustomerDAO {
-//    private final List<Customer> customerList = new ArrayList<>();
-
-//
-//    public Optional<Customer> findById(Integer id) {
-//        return customerList.stream()
-//                .filter(customer -> customer.getId().equals(id))
-//                .findFirst();
-//    }
+    boolean existsCustomerByEmail(String email);
 }

@@ -1,7 +1,10 @@
 package com.coffee.export.fullstack.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -36,6 +39,13 @@ public class Customer {
         this.age = age;
         this.email = mail;
         this.name = name;
+    }
+
+    public Customer(Integer id, String name, String email, int age) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.age = age;
     }
 
     @Override

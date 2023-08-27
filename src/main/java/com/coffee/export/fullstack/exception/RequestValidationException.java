@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * @ProjectName: FullStack
  * @Author: Temesgen D.
- * @Date: 8/25/23
+ * @Date: 8/26/23
  */
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class ResourceNotFound extends RuntimeException {
-    public ResourceNotFound(String message) {
+@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+public class RequestValidationException extends RuntimeException {
+    public RequestValidationException(String message) {
         super(message);
     }
+
 }

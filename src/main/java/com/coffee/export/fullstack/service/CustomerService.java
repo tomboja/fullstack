@@ -1,6 +1,7 @@
 package com.coffee.export.fullstack.service;
 
 import com.coffee.export.fullstack.domain.Customer;
+import com.coffee.export.fullstack.domain.dto.CustomerRegistrationRequest;
 
 import java.util.List;
 
@@ -12,5 +13,14 @@ import java.util.List;
 
 public interface CustomerService {
     List<Customer> getCustomers();
-    Customer getCustomerById(Integer id);
+
+    Customer selectCustomerById(Integer id);
+
+    Customer saveCustomer(Customer customer);
+
+    boolean existsPersonWithEmail(String email);
+
+    boolean deleteCustomerById(Integer id);
+
+    Customer updateCustomer(CustomerRegistrationRequest request, Integer id);
 }

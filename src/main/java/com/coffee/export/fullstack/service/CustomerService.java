@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public interface CustomerService {
-    List<Customer> getCustomers();
+    List<Customer> getAllCustomers();
 
     Customer selectCustomerById(Integer id);
 

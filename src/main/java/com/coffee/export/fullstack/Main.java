@@ -9,8 +9,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.coffee.export.fullstack.utility.Utils.generateFakeCustomers;
 
 
 @SpringBootApplication
@@ -29,16 +30,10 @@ public class Main {
 
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
-        List<Customer> customers = new ArrayList<>();
-
-        Customer customer1 = new Customer("James", "james@email.com", 28);
-        Customer customer2 = new Customer("Jason", "jason@email.com", 30);
-        customers.add(customer2);
-        customers.add(customer1);
-
+        List<Customer> customers = generateFakeCustomers();
 
         return args -> {
-            customerRepository.saveAll(customers);
+            // customerRepository.saveAll(customers);
         };
     }
 

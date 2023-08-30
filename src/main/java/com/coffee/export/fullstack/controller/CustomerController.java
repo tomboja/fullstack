@@ -19,13 +19,13 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
-    public CustomerController(@Qualifier("jpaBasedService") CustomerService customerService) {
+    public CustomerController(@Qualifier("jdbcBasedService") CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @GetMapping()
     public List<Customer> getCustomers() {
-        return customerService.getCustomers();
+        return customerService.getAllCustomers();
     }
 
     @GetMapping("/{customerId}")

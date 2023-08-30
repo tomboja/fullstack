@@ -26,7 +26,7 @@ public class CustomerServiceJpaImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getCustomers() {
+    public List<Customer> getAllCustomers() {
         return repository.findAll();
     }
 
@@ -44,7 +44,7 @@ public class CustomerServiceJpaImpl implements CustomerService {
         return repository.save(customer);
     }
 
-    private void checkCustomerEmailIsUnique(String email) {
+    public void checkCustomerEmailIsUnique(String email) {
         boolean emailExists = repository.existsCustomerByEmail(email);
         if (emailExists) {
             throw new DuplicateResourceException("Email already exists");

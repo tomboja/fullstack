@@ -16,8 +16,8 @@ import java.util.List;
 public class CustomerRepositoryList implements CustomerDao {
     List<Customer> customers = new ArrayList<>();
 
-    Customer customer1 = new Customer(1, "James", "james@email.com", 28);
-    Customer customer2 = new Customer(2, "Jason", "jason@email.com", 30);
+    Customer customer1 = new Customer("James", "james@email.com", 28);
+    Customer customer2 = new Customer("Jason", "jason@email.com", 30);
 
     public CustomerRepositoryList() {
         customers.add(customer1);

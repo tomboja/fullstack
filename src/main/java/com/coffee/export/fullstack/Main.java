@@ -1,6 +1,7 @@
 package com.coffee.export.fullstack;
 
 import com.coffee.export.fullstack.domain.Customer;
+import com.coffee.export.fullstack.domain.dto.CustomerRegistrationRequest;
 import com.coffee.export.fullstack.repository.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +31,7 @@ public class Main {
 
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
-        List<Customer> customers = generateFakeCustomers();
+        List<CustomerRegistrationRequest> customers = generateFakeCustomers(10);
 
         return args -> {
             // customerRepository.saveAll(customers);

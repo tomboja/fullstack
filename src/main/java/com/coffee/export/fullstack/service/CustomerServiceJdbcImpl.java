@@ -3,6 +3,7 @@ package com.coffee.export.fullstack.service;
 import com.coffee.export.fullstack.domain.Customer;
 import com.coffee.export.fullstack.domain.dto.CustomerRegistrationRequest;
 import com.coffee.export.fullstack.exception.DuplicateResourceException;
+import com.coffee.export.fullstack.exception.RequestValidationException;
 import com.coffee.export.fullstack.exception.ResourceNotFoundException;
 import com.coffee.export.fullstack.repository.CustomerRepositoryJdbc;
 import com.coffee.export.fullstack.utility.CustomerRowMapper;
@@ -68,8 +69,7 @@ public class CustomerServiceJdbcImpl implements CustomerService {
     @Override
     public boolean existsPersonWithEmail(String email) {
         var sql = """
-                SELECT *
-                FROM customer
+                SELECT * FROM customer
                 WHERE email = ?
                 """;
         int result = jdbcRepository.findByEmail(sql, customerRowMapper, email);
@@ -78,9 +78,7 @@ public class CustomerServiceJdbcImpl implements CustomerService {
 
     public boolean existsCustomerWithId(Integer customerId) {
         var sql = """
-                SELECT *
-                FROM customer
-                WHERE id = ?
+                SELECT * FROM customer WHERE customerid = ?
                 """;
         Customer result = jdbcRepository.findById(sql, customerRowMapper, customerId);
         System.out.println("Result>> " + result);
@@ -91,12 +89,10 @@ public class CustomerServiceJdbcImpl implements CustomerService {
     @Override
     public boolean deleteCustomerById(Integer id) {
         var sql = """
-                DELETE
-                FROM customer
-                WHERE customerid = ?
+                DELETE FROM customer WHERE customerid = ?
                 """;
         Customer customer = selectCustomerById(id);
-        if (customer.getEmail() == null) {
+        if (customer.getId() == null) {
             throw new ResourceNotFoundException(String.format("Customer with id [%s] does not exist.", id));
         }
         int result = jdbcRepository.deleteCustomer(sql, id);
@@ -106,6 +102,7 @@ public class CustomerServiceJdbcImpl implements CustomerService {
     //    @Override
     public Customer updateCustomer(CustomerRegistrationRequest request, Integer id) {
         Customer savedCustomer = selectCustomerById(id);
+        boolean customerIdHasChanged = false;
 
         // Update name if name has changed
         if (request.name() != null
@@ -115,6 +112,7 @@ public class CustomerServiceJdbcImpl implements CustomerService {
                     """;
             int result = jdbcTemplate.update(sql, request.name(), id);
             savedCustomer.setName(request.name());
+            customerIdHasChanged = true;
         }
 
         // Update email if email has changes
@@ -124,6 +122,7 @@ public class CustomerServiceJdbcImpl implements CustomerService {
                     """;
             int result = jdbcTemplate.update(sql, request.email(), id);
             savedCustomer.setEmail(request.email());
+            customerIdHasChanged = true;
         }
 
         // Update age if age has changed
@@ -133,6 +132,11 @@ public class CustomerServiceJdbcImpl implements CustomerService {
                     """;
             int result = jdbcTemplate.update(sql, request.age(), id);
             savedCustomer.setAge(request.age());
+            customerIdHasChanged = true;
+        }
+
+        if (!customerIdHasChanged) {
+            throw new RequestValidationException("Customer data has not changed");
         }
 
         return savedCustomer;
